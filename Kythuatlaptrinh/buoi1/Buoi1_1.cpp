@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <string>
 using namespace std;
 
 struct Person {
@@ -22,7 +23,32 @@ void ViewPersonList(vector<Person> p) {
 	}
 }
 
+void AddPerson(vector<Person>& p) {
+	Person a;
+	cout << "+ Id: ";
+	cin >> a.id;
+	cout << "+ Name: ";
+	cin.ignore();
+	getline(cin, a.name);
+	cout << "+ Age: ";
+	cin >> a.age;
+	cout << "+ Address: ";
+	cin.ignore();
+	getline(cin, a.address);
+	p.push_back(a);
+	cout << " ADD a person successfully" << endl;
+}
 
+void RemovePerson(vector<Person>& p, int id) {
+	for (auto i = p.begin();i!= p.end();i ++ ) {
+		if (i->id == id) {
+			p.erase(i);
+			cout << " Remove a person successfully" << endl;
+			return;
+		}
+	}
+	cout << "Not found person with id: " << id << endl;
+}
 
 
 
@@ -55,9 +81,14 @@ int main() {
 			break;
 		}
 		case 2: {
+			AddPerson(list);
 			break;
 		}
 		case 3: {
+			int id;
+			cout << "Input ID to remove: ";
+			cin >> id;
+			RemovePerson(list, id);
 			break;
 		}
 		case 4: {
