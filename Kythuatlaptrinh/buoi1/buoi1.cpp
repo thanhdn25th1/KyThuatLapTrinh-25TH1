@@ -1,21 +1,21 @@
-#include <iostream>
+/*#include <iostream>
 #include <vector>
 using namespace std;
 
-/*vector < float> diemthi;
+vector < float> diemthi;
 	diemthi.push_back(5.5);
 	diemthi.push_back(5);
 	diemthi.push_back(6);
 	diemthi.pop_back();
 	for (int i = 0;i < diemthi.size(); i++) {
 		cout << diemthi[i] << endl;
-	}*/
+	}
 
-//int a = 5;
-//int* p = &a;
-//a += 6;
-//a = *p + 2;
-//cout << *p;
+int a = 5;
+int* p = &a;
+a += 6;
+a = *p + 2;
+cout << *p;
 
 
 struct Sinhvien {
@@ -40,11 +40,11 @@ int main()
 	c.diachi = "Ho Chi Minh";
 
 
-	// mang tinh:
-	//Sinhvien ds[50];   
+	 mang tinh:
+	Sinhvien ds[50];   
 	 
 	
-	// mang dong:
+	 mang dong:
 	vector < Sinhvien> mang;
 	mang.push_back(b);
 	mang.push_back(c);
@@ -54,6 +54,6 @@ int main()
 		cout << "\t+ Tuoi:" << mang[i].tuoi << endl;
 		cout << "\t+ Dia chi:" << mang[i].diachi << endl;
 	} 
-
 }
 
+*/
