@@ -8,6 +8,26 @@ struct Person {
 	int age;
 	string address;
 };
+void ViewPersonList(vector<Person> p) {
+	if (p.size() == 0)
+		cout << "An empty list " << endl;
+	else {
+		for (int i = 0;i < p.size();i++) {
+			cout << "Preson" << (i + 1) << endl;
+			cout << "\t+ Id: " << p[i].id << endl;
+			cout << "\t+ Name: " << p[i].name << endl;
+			cout << "\t+ Age: " << p[i].age << endl;
+			cout << "\t+ Address: " << p[i].address << endl;
+		}
+	}
+}
+
+
+
+
+
+
+
 
 int main() {
 
@@ -31,6 +51,7 @@ int main() {
 		switch (cmd)
 		{
 		case 1: {
+			ViewPersonList (list);
 			break;
 		}
 		case 2: {
