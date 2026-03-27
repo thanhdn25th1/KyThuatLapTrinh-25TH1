@@ -5,6 +5,8 @@ VisualStudioVersion = 17.10.35004.147
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "buoi1", "buoi1\buoi1.vcxproj", "{D250A4C2-4287-441E-B75A-2AD69B878EEF}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Buoi2", "Buoi2\Buoi2.vcxproj", "{DB0A2028-D4FF-413E-A872-4F8A62068F9B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{D250A4C2-4287-441E-B75A-2AD69B878EEF}.Release|x64.Build.0 = Release|x64
 		{D250A4C2-4287-441E-B75A-2AD69B878EEF}.Release|x86.ActiveCfg = Release|Win32
 		{D250A4C2-4287-441E-B75A-2AD69B878EEF}.Release|x86.Build.0 = Release|Win32
+		{DB0A2028-D4FF-413E-A872-4F8A62068F9B}.Debug|x64.ActiveCfg = Debug|x64
+		{DB0A2028-D4FF-413E-A872-4F8A62068F9B}.Debug|x64.Build.0 = Debug|x64
+		{DB0A2028-D4FF-413E-A872-4F8A62068F9B}.Debug|x86.ActiveCfg = Debug|Win32
+		{DB0A2028-D4FF-413E-A872-4F8A62068F9B}.Debug|x86.Build.0 = Debug|Win32
+		{DB0A2028-D4FF-413E-A872-4F8A62068F9B}.Release|x64.ActiveCfg = Release|x64
+		{DB0A2028-D4FF-413E-A872-4F8A62068F9B}.Release|x64.Build.0 = Release|x64
+		{DB0A2028-D4FF-413E-A872-4F8A62068F9B}.Release|x86.ActiveCfg = Release|Win32
+		{DB0A2028-D4FF-413E-A872-4F8A62068F9B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
