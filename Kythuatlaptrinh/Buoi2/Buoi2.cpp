@@ -14,8 +14,8 @@ struct Person {
 	}
 	friend istream& operator << (istream& in, Person& p) {
 	 cout << "Input person information: " << endl;
-	        cout << "\t+ Id: "
-			in >> p.id;
+	 cout << "\t+ Id: ";
+	 in >> p.id;
 		cout << "\t+ name: ";
 		in.ignore();
 		getline(in, p.name);
@@ -49,11 +49,11 @@ struct LinkedList {
 		newNode->next = head;
 		head = newNode;
 	}
-	bood  Remove(int x) {
+	bool  Remove(int x) {
 		if (head == NULL) {
 			return false;
 		}
-		Node* item = = head;
+		Node* item = head;
 		if (item->data.id == x) {
 			head = item->next;
 			delete item;
