@@ -59,7 +59,7 @@ bool FindPerson(vector<Person>p, string name) {
 }
 
 void ExportToFile(vector<Person>p, string flieName) {
-	ofstream file(filename, ios::binary);
+	ofstream file(fileName, ios::binary);
 	if (!file) {
 		cout << "Can't open this file" << endl;
 		return;
@@ -78,37 +78,39 @@ void ExportToFile(vector<Person>p, string flieName) {
 	}
 }
 
-	void ReadFromFile(vector<Person>p, string flieName) {
-		ifstream file(filename, ios::binary);
-		if (!file) {
-			cout << "Can't open this file" << endl;
-			return;
-		}
-		/*while (p.size() > 0)
-		{
-			p.pop_back();
-		}*/
-		
-		Person i;
-		while(file.peek()!=EOF){
+void ReadFromFile(vector<Person>p, string flieName) {
+	ifstream file(filename, ios::binary);
+	if (!file) {
+		cout << "Can't open this file" << endl;
+		return;
+	}
+	/*while (p.size() > 0)
+	{
+		p.pop_back();
+	}*/
 
-			file.read(reinterpret_cast<const char*>(&i.id), sizeof(i.id));
+	Person i;
+	while (file.peek() != EOF) {
 
-			size_t namelength;
-			file.read(reinterpret_cast<const char*>(&namelength), sizeof(namelength));
-			i.name.resize(namelength);
-			file.read(&i.name[0], namelength);
+		file.read(reinterpret_cast<const char*>(&i.id), sizeof(i.id));
 
-			file.read(reinterpret_cast<const char*>(&i.age), sizeof(i.age));
+		size_t namelength;
+		file.read(reinterpret_cast<const char*>(&namelength), sizeof(namelength));
+		i.name.resize(namelength);
+		file.read(&i.name[0], namelength);
 
-			size_t addresslength = i.address.size();
-			file.read(reinterpret_cast<const char*>(&addresslength), sizeof(addresslength));
-			i.address.resize(addresslength);
-			file.read(&i.address[0], addresslength);
+		file.read(reinterpret_cast<const char*>(&i.age), sizeof(i.age));
 
-			RemovePerson(p, i.id);
-			p.push_back(i);
-		}
+		size_t addresslength = i.address.size();
+		file.read(reinterpret_cast<const char*>(&addresslength), sizeof(addresslength));
+		i.address.resize(addresslength);
+		file.read(&i.address[0], addresslength);
+
+		RemovePerson(p, i.id);
+		p.push_back(i);
+	}
+}
+
 
 
 
