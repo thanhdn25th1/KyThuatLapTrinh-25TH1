@@ -87,7 +87,21 @@ struct LinkedList {
 		}
 		return false;
 	}
-		
+	bool Update(int updateId) {
+		if (head == NULL) {
+			cout << "No book available" << endl;
+			return false;
+		}
+		Node* item = head;
+		while (item != NULL) {
+			if (item->data.id == updateId) {
+				cin >> item->data;
+				return true;
+			}
+			item = item->next;
+		}
+		return false;
+	}
 };
 
 
@@ -110,6 +124,7 @@ int main()
 		cout << "Enter your choice: " << endl;
 		int choice;
 		cin >> choice;
+		
 		switch (choice)
 		{
 		case 1: {
@@ -137,6 +152,14 @@ int main()
 			break;
 		}
 		case 4: {
+			int updateId;
+			cout << " Enter book's id to update: ";
+			cin >> updateId;
+			bool res = books.Update(updateId);
+			if (res)
+				cout << " Update book successfully" << endl;
+			else
+				cout << " Invalid book id " << endl;
 			break;
 		}
 		case 5: {
@@ -151,11 +174,13 @@ int main()
 		case 0: {
 			return 0;
 		}
-		default: {
+		default: 
 			cout << " Invalid choice , try again" << endl;
 			break;
 		}
-		}
+		system("pause");
+		cout << "Press any key to continue...";
+
 	} while (true);
 
 }
