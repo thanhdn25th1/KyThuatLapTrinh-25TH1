@@ -1,6 +1,7 @@
 
 #include <string>
 #include <iostream>
+#include<fstream>
 
 using namespace std;
 
@@ -39,6 +40,8 @@ struct Book {
 		in >> b.author;
 		return in;
 	}
+
+
 };
 
 struct Node {
@@ -48,6 +51,8 @@ struct Node {
 		data = b;
 		next = nullptr;
 	}
+
+
 };
 
 struct LinkedList {
@@ -118,6 +123,30 @@ struct LinkedList {
 		}
 		return NULL;
 	}
+	void Export(string filename) {
+		ofstream out(filename, ios::binary);
+		if (!out.is_open()) {
+			cout << "Cannot open file" << endl;
+			return;
+		}
+		Node* item = head;
+		while (item!=NULL){
+			out.write(reinterpret_cast<const char*>(&item->data.id), sizeof(item->data.id));
+
+			size_t namelength = item->data.name.size();
+			out.write(reinterpret_cast<const char*>(&namelength), sizeof(namelength));
+			out.write(item->data.name.c_str(), namelength);
+
+			out.write(reinterpret_cast<const char*>(&item->data.author.id), sizeof(item->data.author.id));
+
+			size_t authornamelength = item->data.author.name.size();
+			out.write(reinterpret_cast<const char*>(&authornamelength), sizeof(authornamelength));
+			out.write(item->data.author.name.c_str(), authornamelength);
+			item = item->next;
+		}
+		out.close();
+	}
+
 };
 
 
@@ -193,6 +222,8 @@ int main()
 			break;
 		}
 		case 6: {
+			books.Export("25TH1.dla");
+			cout << "Exported successfully" << endl;
 			break;
 		}
 		case 7: {
