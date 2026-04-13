@@ -146,6 +146,39 @@ struct LinkedList {
 		}
 		out.close();
 	}
+	void Import(string filename) {
+		ifstream in(filename, ios::binary);
+		if (!in.is_open()) {
+			cout << "Cannot open file" << endl;
+			return;
+		}
+		while (head != NULL) {
+			Node* temp = head;
+			head = head->next;
+			delete temp;
+		}
+		while (in.peek() != EOF) {
+			Book b;
+			in.read(reinterpret_cast<char*>(&b.id), sizeof(b.id));
+
+			sixe_t namelength;
+			in.read(reinterpret_cast<char*>(&namelength), sizeof(namelength));
+			b.name.resize(namelength);
+			in.read(&b.name[0], namelength);
+
+			in.read(reinterpret_cast<char*>(&b.author.id), sizeof(b.author.id));
+
+			sixe_t authornamelength;
+			in.read(reinterpret_cast<char*>(&authornamelength), sizeof(authornamelength));
+			b.author.name.resize(authornamelength);
+			in.read(&b.author.name[0], authornamelength);
+
+			Node* newNode = new Node;
+			newNode->Create(b);
+			Addfirst(newnode);
+		}
+		in.close();
+	}
 
 };
 
@@ -227,6 +260,8 @@ int main()
 			break;
 		}
 		case 7: {
+			books.Import("25TH1.dla");
+			cout << "Imported successfully" << endl;
 			break;
 		}
 		case 0: {
