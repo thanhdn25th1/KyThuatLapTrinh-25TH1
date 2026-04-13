@@ -25,3 +25,5 @@ void LinkedList<T> ::Show() {
 	}
 }
 
+
+
