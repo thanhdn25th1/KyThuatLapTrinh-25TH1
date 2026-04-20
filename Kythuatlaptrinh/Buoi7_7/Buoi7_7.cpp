@@ -1,4 +1,4 @@
-
+#include <string>
 #include <iostream>
 #include "Account.h"
 #include"Linkedlist.h"
@@ -51,29 +51,23 @@ int main()
 		}
 
 		case 4: {
-			/*int updateId;
-			cout << " Enter book's id to update: ";
+			int updateId;
+			cout << " Enter account to update";
 			cin >> updateId;
-			bool res = books.Update(updateId);
+			bool res = account.Update(updateId);
 			if (res)
-				cout << " Update book successfully" << endl;
+				cout << " Update account successfully" << updateId << endl;
 			else
-				cout << " Invalid book id " << endl;*/
+				cout << "Not found account id " << updateId << endl;
 			break;
 		}
 
 		case 5: {
-			/*string bookName;
-			cout << "Enter book's name to find: ";
+			string userName;
+			cout << "Enter account name: ";
 			cin.ignore();
-			getline(cin, bookName);
-			Book* res = books.Find(bookName);
-			if (res != NULL) {
-				cout << *res;
-			}
-			else {
-				cout << "No book with name: " << bookName << endl;
-			}*/
+			getline(cin, userName);
+			account.Find(userName);
 			break;
 		}
 

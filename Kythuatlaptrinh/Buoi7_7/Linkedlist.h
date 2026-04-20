@@ -11,6 +11,8 @@ struct LinkedList {
 	void Show();
 	void Add(T item);
 	bool Remove(int id);
+	bool Update(int id);
+	void Find(string userName);
 
 
 };
@@ -30,10 +32,10 @@ void LinkedList<T> ::Show() {
 
 template<typename T>
 void LinkedList <T>::Add(T item) {
-	Node<T>* newNode = newNode<T>;
+	Node<T>* newNode = new Node<T>;
 	newNode->data = item;
 	newNode->next = nullptr;
-	if (head == nullprt) {
+	if (head == nullptr) {
 		head == newNode;
 	}
 	else {
@@ -41,8 +43,10 @@ void LinkedList <T>::Add(T item) {
 		while (item->next != nullptr) {
 			item = item->next;
 		}
-		item->next = newNode
+		item->next = newNode;
 	}
+
+
 }
 
 template<typename T>
@@ -51,7 +55,7 @@ bool LinkedList <T>::Remove(int id){
 		cout << " No account avaiable" << endl;
 		return false;
 	}
-	Node<Y>* item = head;
+	Node<T>*item = head;
 	if (item->data.id == id) {
 		head = item->next;
 		delete item;
@@ -67,4 +71,38 @@ bool LinkedList <T>::Remove(int id){
 		item = item->next;
 	}
 	return false;
+}
+
+template<typename T>
+bool LinkedList <T>::Update(int id) {
+	if (!head) {
+		cout << " No account avaiable" << endl;
+		return false;
+	}
+	Node<T>* item = head;
+	while (item !=NULL){
+		if (item->data.id == id) {
+			cin >> item->data;
+			return true;
+		}
+		item = item->next;
+	}
+	return false;
+}
+
+template<typename T>
+void LinkedList <T>::Find(string userName) {
+	if (!head) {
+		cout << " No account avaiable" << endl;
+		return;
+	}
+	Node<T>* item = head;
+	while (item != NULL) {
+		if (item->data.userName == userName) {
+			cin >> item->data << endl;
+			return;
+		}
+		item = item->next;
+	}
+	cout << "No account found" << endl;
 }
