@@ -1,7 +1,7 @@
 #include <string>
 #include <iostream>
 #include "Account.h"
-#include"Linkedlist.h"
+#include "Linkedlist.h"
 using namespace std;
 
 int main()
@@ -72,14 +72,14 @@ int main()
 		}
 
 		case 6: {
-			/*books.Export("25TH1.dla");
-			cout << "Exported successfully" << endl;*/
+			account.Export("25TH1.dla");
+			cout<<"Exported successfully:" <<endl;
 			break;
 		}
 
 		case 7: {
-			/*books.Import("25TH1.dla");
-			cout << "Imported successfully" << endl;*/
+			account.Import("25TH1.dla");
+			cout << "Imported successfully" << endl;
 			break;
 		}
 

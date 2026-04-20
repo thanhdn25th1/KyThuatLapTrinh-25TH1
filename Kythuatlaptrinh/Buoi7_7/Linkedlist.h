@@ -1,4 +1,5 @@
 
+#include <fstream>
 template <typename T>
 struct Node {
 	T data;
@@ -13,19 +14,22 @@ struct LinkedList {
 	bool Remove(int id);
 	bool Update(int id);
 	void Find(string userName);
+	void Export(string fileName);
+	void Import(string FileName);
+
 
 
 };
 
 template <typename T>
-void LinkedList<T> ::Show() {
+void LinkedList<T>::Show() {
 	if (head == NULL) {
 		cout << "No data available" << endl;
 		return;
 	}
-	Node* item = head;
+	Node<T>* item = head;
 	while (item != NULL) {
-		//cout << item->data;
+		cout << item->data;
 		item = item->next;
 	}
 }
@@ -98,11 +102,48 @@ void LinkedList <T>::Find(string userName) {
 	}
 	Node<T>* item = head;
 	while (item != NULL) {
-		if (item->data.userName == userName) {
-			cin >> item->data << endl;
+		if (item->data.usr == userName) {
+			cout << item->data;
 			return;
 		}
 		item = item->next;
 	}
 	cout << "No account found" << endl;
 }
+
+template<typename T>
+void LinkedList <T>::Export(string fileName) {
+	ofstream outFile(fileName, ios::binary);
+	if (!outFile) {
+		cout << "Error opening file for writing" << endl;
+		return;
+	}
+	Node<T>* item = head;
+	while (item != NULL) {
+		outFile.write(reinterpret_cast<char*>(&item->data), sizeof(T));
+		item = item->next;
+	}
+	outFile.close();
+	}
+	
+template<typename T>
+void LinkedList <T>::Import(string fileName) {
+	ifstream inFile(fileName, ios::binary);
+	if (!inFile) {
+		cout << "Error opening file for reading" << endl;
+		return;
+	}
+	Node<T>* item = head;
+	while (item != NULL) {
+		Node<T>* temp = item;
+		item = item->next;
+		delete temp;
+	}
+	T item1;
+	while(inFile.read(reinterpret_cast<char*>(&item1), sizeof(T))){
+		Add(item1);
+		
+	}
+	inFile.close();
+}
+
