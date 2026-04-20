@@ -34,20 +34,19 @@ int main()
 		case 2: {
 		    Account a;
 			cin >> a;
-			accounts.Add(a);
+			account.Add(a);
 			break;
 		}
 
 		case 3: {
-			/*int removeId;
-			cout << "Enter book's id to remove: ";
+			int removeId;
+			cout << "Enter account to remove "; 
 			cin >> removeId;
-			bool res = books.Remove(removeId);
+			bool res = account.Remove(removeId);
 			if (res)
-				cout << " Removebook successfully" << endl;
+				cout << " Remove account successfully" << removeId<< endl;
 			else
-				cout << "Invailid bookid" << endl;*/
-
+				cout << "Not found account id" <<removeId<< endl;
 			break;
 		}
 
