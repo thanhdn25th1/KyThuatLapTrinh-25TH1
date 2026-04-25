@@ -24,13 +24,6 @@ struct Vehicle{
 	
 
 
-
-
-
-
-
-
-
 int main()
 {
 	/*LinkedList<Account> account = { NULL };*/
