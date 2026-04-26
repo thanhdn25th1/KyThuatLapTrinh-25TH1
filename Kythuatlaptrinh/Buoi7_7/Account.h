@@ -1,5 +1,6 @@
 #include <string>
 using namespace std;
+
 struct Account {
 	int id;
 	char lnk[50], usr[50], pwd[50], desc[50];

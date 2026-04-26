@@ -16,9 +16,6 @@ struct LinkedList {
 	void Find(string userName);
 	void Export(string fileName);
 	void Import(string FileName);
-
-
-
 };
 
 template <typename T>
@@ -33,7 +30,6 @@ void LinkedList<T>::Show() {
 		item = item->next;
 	}
 }
-
 template<typename T>
 void LinkedList <T>::Add(T item) {
 	Node<T>* newNode = new Node<T>;
@@ -52,7 +48,6 @@ void LinkedList <T>::Add(T item) {
 
 
 }
-
 template<typename T>
 bool LinkedList <T>::Remove(int id){
 	if (!head) {
@@ -76,7 +71,6 @@ bool LinkedList <T>::Remove(int id){
 	}
 	return false;
 }
-
 template<typename T>
 bool LinkedList <T>::Update(int id) {
 	if (!head) {
@@ -93,7 +87,6 @@ bool LinkedList <T>::Update(int id) {
 	}
 	return false;
 }
-
 template<typename T>
 void LinkedList <T>::Find(string userName) {
 	if (!head) {
@@ -110,7 +103,6 @@ void LinkedList <T>::Find(string userName) {
 	}
 	cout << "No account found" << endl;
 }
-
 template<typename T>
 void LinkedList <T>::Export(string fileName) {
 	ofstream outFile(fileName, ios::binary);
@@ -125,7 +117,6 @@ void LinkedList <T>::Export(string fileName) {
 	}
 	outFile.close();
 	}
-	
 template<typename T>
 void LinkedList <T>::Import(string fileName) {
 	ifstream inFile(fileName, ios::binary);

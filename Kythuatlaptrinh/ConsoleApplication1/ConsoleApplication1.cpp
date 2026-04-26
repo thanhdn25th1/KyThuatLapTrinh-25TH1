@@ -10,23 +10,174 @@
 
 
 #include <iostream>
+#include <fstream>
+#include <string>
 using namespace std;
 
+struct Vehicle {
+    int id;
+    string name;
+    string type[30]; //kieu xe : sirius, wave 50
+    string branch; //chinh nhanh: Toyota, Yamaha
+    double price; // gia xe 
+    
 
-struct Vehicle{
-	int id;
-	char type[30]; //Sirus, Wave 50
-	string branch; //Toyota, Yamaha
-	double price;
+    friend istream& operator>>(istream& in, Vehicle& v) {
+        cout << "Enter ID: "; in >> v.id;
+        cin.ignore();
+        cout << "Enter name: "; getline(in, v.name);
+        cout << "Enter type: "; getline(in, v.type[30]);
+        cout << "Enter branch: "; getline(in, v.branch);
+        cout << "Enter price: "; in >> v.price;
+        return in;
+    }
+
+    friend ostream& operator<<(ostream& out, const Vehicle& v) {
+        out << "ID: " << v.id
+            << "\t+ Name: " << v.name
+            << "\t+ Type: " << v.type
+            << "\t+ Branch: " << v.branch
+            << "\t+ Price: " << v.price << endl;
+        return out;
+    }
 };
 
+template <typename T>
+struct Node {
+    T data;
+    Node* next;
+};
 
-	
+template <typename T>
+struct LinkedList {
+    Node<T>* head = nullptr;
+
+    void Show();
+    void Add(T item);
+    void Find(string name);
+    void Delete();
+    void Save(string fileName);
+    void Read(string fileName);
+    bool Update(int id);
+    void Statistics();
+};
+
+template<typename T>
+void LinkedList<T>::Show() {
+    if (!head) {
+        cout << "No data available\n";
+        return;
+    }
+    Node<T>* item = head;
+    while (item) {
+        cout << item->data;
+        item = item->next;
+    }
+}
+
+template<typename T>
+void LinkedList<T>::Add(T item) {
+    Node<T>* newNode = new Node<T>{ item, nullptr };
+
+    if (!head) {
+        head = newNode;
+        return;
+    }
+
+    Node<T>* temp = head;
+    while (temp->next) temp = temp->next;
+    temp->next = newNode;
+}
+
+template<typename T>
+void LinkedList<T>::Find(string name) {
+    Node<T>* item = head;
+    while (item) {
+        if (item->data.name == name) {
+            cout << item->data;
+            return;
+        }
+        item = item->next;
+    }
+    cout << "Not found";
+}
+
+template<typename T>
+void LinkedList<T>::Delete() {
+    Node<T>* item = head;
+    while (item) {
+        Node<T>* temp = item;
+        item = item->next;
+        delete temp;
+    }
+    head = nullptr;
+    cout << "All data deleted!";
+}
+
+template<typename T>
+void LinkedList<T>::Save(string fileName) {
+    ofstream out(fileName);
+    if (!out) {
+        cout << "Cannot open file!";
+        return;
+    }
+
+    Node<T>* item = head;
+    while (item) {
+        out << item->data.id << ","
+            << item->data.name << ","
+            << item->data.type << ","
+            << item->data.price << endl;
+        item = item->next;
+    }
+
+    out.close();
+    cout << "Saved successfully!";
+}
+
+template<typename T>
+void LinkedList<T>::Read(string fileName) {
+    ifstream in(fileName);
+    if (!in) {
+        cout << "Cannot open file!";
+        return;
+    }
+
+    Delete();
+
+    T v;
+    while (in >> v.id) {
+        in.ignore();
+        getline(in, v.name, ',');
+        getline(in, v.type, ',');
+        in >> v.price;
+        in.ignore();
+
+        Add(v);
+    }
+
+    in.close();
+    cout << "Readed successfully!";
+}
+
+template<typename T>
+bool LinkedList<T>::Update(int id) {
+    Node<T>* item = head;
+    while (item) {
+        if (item->data.id == id) {
+            cin >> item->data;
+            return true;
+        }
+        item = item->next;
+    }
+    return false;
+}
+
 
 
 int main()
 {
-	/*LinkedList<Account> account = { NULL };*/
+	LinkedList <Vehicle> vehicle = { NULL };
 
 	do {
 		system("cls");
@@ -48,7 +199,7 @@ int main()
 		switch (choice)
 		{
 		case 1: {
-			
+			vehicle.Show();
 			break;
 		}
 
