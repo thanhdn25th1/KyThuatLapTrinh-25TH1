@@ -12,6 +12,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <list>
+#include "ConsoleApplication1.h"
 using namespace std;
 
 struct Vehicle {
@@ -65,7 +67,7 @@ struct LinkedList {
 template<typename T>
 void LinkedList<T>::Show() {
     if (!head) {
-        cout << "No data available\n";
+        cout << "No data available";
         return;
     }
     Node<T>* item = head;
@@ -172,6 +174,44 @@ bool LinkedList<T>::Update(int id) {
     }
     return false;
 }
+template<typename T>
+void LinkedList<T>::Statistics() {
+    if (head == nullptr) {
+        cout << "The list is empty!" << endl;
+        return;
+    }
+
+    cout << "STATISTICS BY BRAND" << endl;
+
+    Node<T>* item = head;
+    while (item != nullptr) {
+      
+        bool alreadyCounted = false;
+        Node<T>* check = head;
+        while (check != item) {
+            if (check->data.branch == item->data.branch) {
+                alreadyCounted = true;
+                break;
+            }
+            check = check->next;
+        }
+
+       
+        if (!alreadyCounted) {
+            int count = 0;
+            Node<T>* temp = item;
+            while (temp != nullptr) {
+                if (temp->data.branch == item->data.branch) {
+                    count++;
+                }
+                temp = temp->next;
+            }
+            cout << "Branch: " << item->data.branch << " |Quantity: " << count << endl;
+        }
+
+        item = item->next; 
+    }
+}
 
 
 
@@ -202,9 +242,10 @@ int main()
 			vehicle.Show();
 			break;
 		}
-
-		case 2: {
-			
+        case 2:{
+           Vehicle a;
+            cin >> a;
+            vehicle.Add(a);
 			break;
 		}
 
@@ -229,10 +270,18 @@ int main()
 		}
 
 		case 7: {
-			
+            int updateId;
+            cout << " Enter vehicle to update";
+            cin >> updateId;
+            bool res = vehicle.Update(updateId);
+            if (res)
+                cout << " Update vehicle successfully" << updateId << endl;
+            else
+                cout << "Not found vehicle id " << updateId << endl;
 			break;
 		}
 		case 8: {
+            vehicle.Statistics();
 			break;
 		}
 
