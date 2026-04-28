@@ -12,35 +12,39 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <list>
-#include "ConsoleApplication1.h"
 using namespace std;
 
 struct Vehicle {
     int id;
-    string name;
-    string type[30]; //kieu xe : sirius, wave 50
-    string branch; //chinh nhanh: Toyota, Yamaha
-    double price; // gia xe 
+    char name [30];
+    char type[30]; //kieu xe : sirius, wave 50
+    char branch [50]; //chinh nhanh: Toyota, Yamaha
+    double price ; // gia xe 
     
 
-    friend istream& operator>>(istream& in, Vehicle& v) {
-        cout << "Enter ID: "; in >> v.id;
-        cin.ignore();
-        cout << "Enter name: "; getline(in, v.name);
-        cout << "Enter type: "; getline(in, v.type[30]);
-        cout << "Enter branch: "; getline(in, v.branch);
-        cout << "Enter price: "; in >> v.price;
-        return in;
+    friend ostream& operator<<(ostream& os, Vehicle& v) {
+        os << "\t+ Id: " << v.id << endl;
+        os << "\t+ Name: " << v.name << endl;
+        os << "\t+ Type: " << v.type << endl;
+        os << "\t+ Price: " << v.price << endl;
+        return os;
     }
 
-    friend ostream& operator<<(ostream& out, const Vehicle& v) {
-        out << "ID: " << v.id
-            << "\t+ Name: " << v.name
-            << "\t+ Type: " << v.type
-            << "\t+ Branch: " << v.branch
-            << "\t+ Price: " << v.price << endl;
-        return out;
+    friend istream& operator>>(istream& in, Vehicle& v) {
+        cout << "\t + Id: ";
+        in >> v.id;
+        cout << "\t + Name: ";
+        in.ignore();
+        in.getline(v.name, 30);
+        cout << "\t+ Type: ";
+        in.ignore();
+        in.getline(v.type, 30);
+        cout << "\t+ Branch:";
+        in.ignore();
+        in.getline(v.branch, 50);
+        cout << "\t+ Price: ";
+        in >> v.price;
+        return in;
     }
 };
 
@@ -56,10 +60,10 @@ struct LinkedList {
 
     void Show();
     void Add(T item);
-    void Find(string name);
-    void Delete();
-    void Save(string fileName);
-    void Read(string fileName);
+    void Find(string userName);
+    bool Remove(int id);
+    void Export(string fileName);
+    void Import(string fileName);
     bool Update(int id);
     void Statistics();
 };
@@ -78,90 +82,95 @@ void LinkedList<T>::Show() {
 }
 
 template<typename T>
-void LinkedList<T>::Add(T item) {
-    Node<T>* newNode = new Node<T>{ item, nullptr };
-
-    if (!head) {
-        head = newNode;
-        return;
+void LinkedList <T>::Add(T item) {
+    Node<T>* newNode = new Node<T>;
+    newNode->data = item;
+    newNode->next = nullptr;
+    if (head == nullptr) {
+        head == newNode;
     }
-
-    Node<T>* temp = head;
-    while (temp->next) temp = temp->next;
-    temp->next = newNode;
+    else {
+        Node<T>* item = head;
+        while (item->next != nullptr) {
+            item = item->next;
+        }
+        item->next = newNode;
+    }
 }
 
 template<typename T>
-void LinkedList<T>::Find(string name) {
+void LinkedList <T>::Find(string userName) {
+    if (!head) {
+        cout << " No vehicle avaiable" << endl;
+        return;
+    }
     Node<T>* item = head;
-    while (item) {
-        if (item->data.name == name) {
+    while (item != NULL) {
+        if (item->data.usr == userName) {
             cout << item->data;
             return;
         }
         item = item->next;
     }
-    cout << "Not found";
+    cout << "No vehicle found" << endl;
 }
 
 template<typename T>
-void LinkedList<T>::Delete() {
+bool LinkedList <T>::Remove(int removeId) {
+    if (!head) {
+        cout << " No vehicle avaiable" << endl;
+        return false;
+    }
     Node<T>* item = head;
-    while (item) {
+    if (item->data.id == id) {
+        head = item->next;
+        delete item;
+        return true;
+    }
+    while (item->next != nullptr) {
+        if (item->next->data.id == id) {
+            Node<T>* temp = item->next;
+            item->next = item->next->next;
+            delete temp;
+            return true;
+        }
+        item = item->next;
+    }
+    return false;
+}
+template<typename T>
+void LinkedList <T>::Export(string fileName) {
+    ofstream outFile(fileName, ios::binary);
+    if (!outFile) {
+        cout << "Error opening file for writing" << endl;
+        return;
+    }
+    Node<T>* item = head;
+    while (item != NULL) {
+        outFile.write(reinterpret_cast<char*>(&item->data), sizeof(T));
+        item = item->next;
+    }
+    outFile.close();
+}
+template<typename T>
+void LinkedList <T>::Import(string fileName) {
+    ifstream inFile(fileName, ios::binary);
+    if (!inFile) {
+        cout << "Error opening file for reading" << endl;
+        return;
+    }
+    Node<T>* item = head;
+    while (item != NULL) {
         Node<T>* temp = item;
         item = item->next;
         delete temp;
     }
-    head = nullptr;
-    cout << "All data deleted!";
+    T item1;
+    while (inFile.read(reinterpret_cast<char*>(&item1), sizeof(T))) {
+        Add(item1);
+    }
+    inFile.close();
 }
-
-template<typename T>
-void LinkedList<T>::Save(string fileName) {
-    ofstream out(fileName);
-    if (!out) {
-        cout << "Cannot open file!";
-        return;
-    }
-
-    Node<T>* item = head;
-    while (item) {
-        out << item->data.id << ","
-            << item->data.name << ","
-            << item->data.type << ","
-            << item->data.price << endl;
-        item = item->next;
-    }
-
-    out.close();
-    cout << "Saved successfully!";
-}
-
-template<typename T>
-void LinkedList<T>::Read(string fileName) {
-    ifstream in(fileName);
-    if (!in) {
-        cout << "Cannot open file!";
-        return;
-    }
-
-    Delete();
-
-    T v;
-    while (in >> v.id) {
-        in.ignore();
-        getline(in, v.name, ',');
-        getline(in, v.type, ',');
-        in >> v.price;
-        in.ignore();
-
-        Add(v);
-    }
-
-    in.close();
-    cout << "Readed successfully!";
-}
-
 template<typename T>
 bool LinkedList<T>::Update(int id) {
     Node<T>* item = head;
@@ -225,9 +234,9 @@ int main()
 		cout << "1.Show all list car " << endl;
 		cout << "2.Add a car" << endl;
 		cout << "3.Find a car" << endl;
-		cout << "4.Delete a car" << endl;
-		cout << "5.Save a car" << endl;
-		cout << "6.Read file" << endl;
+		cout << "4.Remove a car" << endl;
+		cout << "5.Export file" << endl;
+		cout << "6.Import file" << endl;
 		cout << "7.Update information car" << endl;
 		cout << "8.Statistics by brand" << endl;
 		cout << "0.Exit" << endl;
@@ -250,22 +259,35 @@ int main()
 		}
 
 		case 3: {
-			
+            string userName;
+            cout << "Enter account name: ";
+            cin.ignore();
+            getline(cin, userName);
+            vehicle.Find(userName);
 			break;
 		}
 
 		case 4: {
-			
+            int removeId;
+            cout << "Enter vehicle to remove ";
+            cin >> removeId;
+            bool res = vehicle.Remove(removeId);
+            if (res)
+                cout << " Remove vehicle successfully" << removeId << endl;
+            else
+                cout << "Not found vehicle id" << removeId << endl;
 			break;
 		}
 
 		case 5: {
-			
+            vehicle.Export("25TH1.dla");
+            cout << "Exported successfully:" << endl;
 			break;
 		}
 
 		case 6: {
-			
+           vehicle.Import("25TH1.dla");
+            cout << "Imported successfully" << endl;
 			break;
 		}
 

@@ -45,8 +45,6 @@ void LinkedList <T>::Add(T item) {
 		}
 		item->next = newNode;
 	}
-
-
 }
 template<typename T>
 bool LinkedList <T>::Remove(int id){
