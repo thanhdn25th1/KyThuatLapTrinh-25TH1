@@ -161,21 +161,21 @@ struct LinkedList {
 			Book b;
 			in.read(reinterpret_cast<char*>(&b.id), sizeof(b.id));
 
-			sixe_t namelength;
+			size_t namelength;
 			in.read(reinterpret_cast<char*>(&namelength), sizeof(namelength));
 			b.name.resize(namelength);
 			in.read(&b.name[0], namelength);
 
 			in.read(reinterpret_cast<char*>(&b.author.id), sizeof(b.author.id));
 
-			sixe_t authornamelength;
+			size_t authornamelength;
 			in.read(reinterpret_cast<char*>(&authornamelength), sizeof(authornamelength));
 			b.author.name.resize(authornamelength);
 			in.read(&b.author.name[0], authornamelength);
 
 			Node* newNode = new Node;
 			newNode->Create(b);
-			Addfirst(newnode);
+			AddFirst(newNode);
 		}
 		in.close();
 	}

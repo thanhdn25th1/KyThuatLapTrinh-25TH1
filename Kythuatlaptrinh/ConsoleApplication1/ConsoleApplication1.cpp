@@ -14,53 +14,67 @@
 #include <string>
 using namespace std;
 
-struct Vehicle {
+struct Username {
     int id;
-    char usr [30];
-    char type[30]; //kieu xe : sirius, wave 50
-    char branch [50]; //chinh nhanh: Toyota, Yamaha
-    double price ; // gia xe 
-    
-
-    friend ostream& operator<<(ostream& os, Vehicle& v) {
-        os << "\t+ Id: " << v.id << endl;
-        os << "\t+ User name: " << v.usr << endl;
-        os << "\t+ Type: " << v.type << endl;
-        os << "\t+ Price: " << v.price << endl;
-        return os;
-    }
-
-    friend istream& operator>>(istream& in, Vehicle& v) {
+    string name;
+    friend istream& operator>>(istream& in, Username& a) {
+        cout << "Username information:" << endl;
         cout << "\t+ Id: ";
-        in >> v.id;
-        cout << "\t+ User name: ";
+        in >> a.id;
+        cout << "\t+ Name: ";
         in.ignore();
-        in.getline(v.usr, 30);
-        cout << "\t+ Type: ";
-        in.ignore();
-        in.getline(v.type, 30);
-        cout << "\t+ Branch:";
-        in.ignore();
-        in.getline(v.branch, 50);
-        cout << "\t+ Price: ";
-        in >> v.price;
+        getline(in, a.name);
         return in;
     }
 };
 
-template <typename T>
-struct Node {
-    T data;
-    Node* next;
+struct Vehicle {
+    int id;
+    string type;
+    string branch;
+    double price;
+    Username username;
+    friend ostream& operator<<(ostream& os, const Vehicle& b) {
+        os << "Vehicle information:" << endl;
+        os << "\t+ Id: " << b.id << endl;
+        os << "\+t Type: " << b.type << endl;
+        os << "\+t Branch: " << b.branch << endl;
+        os << "\+t Price: " << b.price << endl;
+        os << "\+t Username: " << b.username.name << endl;
+        return os;
+    }
+    friend istream& operator>>(istream& in, Vehicle& b) {
+        cout << "Vehicle information:" << endl;
+        cout << "\t + Id: ";
+        in >> b.id;
+        cout << "\t+ Type: ";
+        in.ignore();
+        getline(in, b.type);
+        cout << "\t+ Branch: ";
+        getline(in, b.branch);
+        cout << "\t+ Price: ";
+        in >> b.price;
+        in >> b.username;
+        return in;
+    } 
 };
 
+template <typename T>
+struct Node {
+    Vehicle data;
+    Node* next;
+    void Create(Vehicle b) {
+        data = b;
+        next = nullptr;
+    }
+};
 template <typename T>
 struct LinkedList {
     Node<T>* head = nullptr;
 
     void Show();
     void Add(T item);
-    void Find(string userName);
+    void Find(string branchName);
     bool Remove(int id);
     void Export(string fileName);
     void Import(string fileName);
@@ -70,12 +84,12 @@ struct LinkedList {
 
 template<typename T>
 void LinkedList<T>::Show() {
-    if (!head) {
-        cout << "No data available " << endl;
+    if (head == NULL) {
+        cout << "No vehicle available" << endl;
         return;
     }
     Node<T>* item = head;
-    while (item) {
+    while (item != NULL) {
         cout << item->data;
         item = item->next;
     }
@@ -99,14 +113,14 @@ void LinkedList <T>::Add(T item) {
 }
 
 template<typename T>
-void LinkedList <T>::Find(string userName) {
+void LinkedList <T>::Find(string branchName) {
     if (!head) {
         cout << " No vehicle available " << endl;
         return;
     }
     Node<T>* item = head;
     while (item != NULL) {
-        if (item->data.usr == userName) {
+        if (item->data.branch == branchName) {
             cout << item->data;
             return;
         }
@@ -187,11 +201,11 @@ template<typename T>
 void LinkedList<T>::Statistics() {
     if (head == nullptr) {
         cout << "The list is empty! " << endl;
-        return;
+        return ;
     }
-
-    cout << " STATISTICS BY BRAND " << endl;
-
+   
+       cout << "  Statistics by brand: " << endl;
+    
     Node<T>* item = head;
     while (item != nullptr) {
       
@@ -221,6 +235,7 @@ void LinkedList<T>::Statistics() {
 
         item = item->next; 
     }
+    
 }
 
 
@@ -253,9 +268,10 @@ int main()
 			break;
 		}
         case 2:{
-           Vehicle a;
-            cin >> a;
-            vehicle.Add(a);
+            Vehicle b;
+            cin >> b;
+            
+            vehicle.Add(b);
 			break;
 		}
 
