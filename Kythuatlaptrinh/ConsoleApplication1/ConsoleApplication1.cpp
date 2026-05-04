@@ -12,6 +12,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+
 using namespace std;
 
 struct Username {
@@ -30,7 +31,7 @@ struct Username {
 
 struct Vehicle {
     int id;
-    string type;
+    char type [30];
     string branch;
     double price;
     Username username;
@@ -45,12 +46,12 @@ struct Vehicle {
     }
     friend istream& operator>>(istream& in, Vehicle& b) {
         cout << "Vehicle information:" << endl;
-        cout << "\t + Id: ";
+        cout << "\t+ Id: ";
         in >> b.id;
         cout << "\t+ Type: ";
-        in.ignore();
-        getline(in, b.type);
+        in >> b.type;
         cout << "\t+ Branch: ";
+        in.ignore();
         getline(in, b.branch);
         cout << "\t+ Price: ";
         in >> b.price;
@@ -61,13 +62,10 @@ struct Vehicle {
 
 template <typename T>
 struct Node {
-    Vehicle data;
+   T data;
     Node* next;
-    void Create(Vehicle b) {
-        data = b;
-        next = nullptr;
-    }
 };
+
 template <typename T>
 struct LinkedList {
     Node<T>* head = nullptr;
@@ -84,12 +82,12 @@ struct LinkedList {
 
 template<typename T>
 void LinkedList<T>::Show() {
-    if (head == NULL) {
+    if (!head ) {
         cout << "No vehicle available" << endl;
         return;
     }
     Node<T>* item = head;
-    while (item != NULL) {
+    while (item ) {
         cout << item->data;
         item = item->next;
     }
@@ -101,7 +99,7 @@ void LinkedList <T>::Add(T item) {
     newNode->data = item;
     newNode->next = nullptr;
     if (head == nullptr) {
-        head == newNode;
+        head = newNode;
     }
     else {
         Node<T>* item = head;
@@ -115,11 +113,11 @@ void LinkedList <T>::Add(T item) {
 template<typename T>
 void LinkedList <T>::Find(string branchName) {
     if (!head) {
-        cout << " No vehicle available " << endl;
+        cout << "No vehicle available" << endl;
         return;
     }
     Node<T>* item = head;
-    while (item != NULL) {
+    while (item ) {
         if (item->data.branch == branchName) {
             cout << item->data;
             return;
@@ -152,6 +150,7 @@ bool LinkedList <T>::Remove(int removeId) {
     }
     return false;
 }
+
 template<typename T>
 void LinkedList <T>::Export(string fileName) {
     ofstream outFile(fileName, ios::binary);
@@ -160,12 +159,13 @@ void LinkedList <T>::Export(string fileName) {
         return;
     }
     Node<T>* item = head;
-    while (item != NULL) {
+    while (item ) {
         outFile.write(reinterpret_cast<char*>(&item->data), sizeof(T));
         item = item->next;
     }
     outFile.close();
 }
+
 template<typename T>
 void LinkedList <T>::Import(string fileName) {
     ifstream inFile(fileName, ios::binary);
@@ -185,6 +185,7 @@ void LinkedList <T>::Import(string fileName) {
     }
     inFile.close();
 }
+
 template<typename T>
 bool LinkedList<T>::Update(int id) {
     Node<T>* item = head;
@@ -197,9 +198,10 @@ bool LinkedList<T>::Update(int id) {
     }
     return false;
 }
+
 template<typename T>
 void LinkedList<T>::Statistics() {
-    if (head == nullptr) {
+    if (!head) {
         cout << "The list is empty! " << endl;
         return ;
     }
@@ -207,7 +209,7 @@ void LinkedList<T>::Statistics() {
        cout << "  Statistics by brand: " << endl;
     
     Node<T>* item = head;
-    while (item != nullptr) {
+    while (item ) {
       
         bool alreadyCounted = false;
         Node<T>* check = head;
@@ -222,8 +224,8 @@ void LinkedList<T>::Statistics() {
        
         if (!alreadyCounted) {
             int count = 0;
-            Node<T>* temp = item;
-            while (temp != nullptr) {
+            Node<T>* temp = head;
+            while (temp ) {
                 if (temp->data.branch == item->data.branch) {
                     count++;
                 }
@@ -235,9 +237,7 @@ void LinkedList<T>::Statistics() {
 
         item = item->next; 
     }
-    
 }
-
 
 
 int main()
@@ -267,20 +267,20 @@ int main()
 			vehicle.Show();
 			break;
 		}
+
         case 2:{
             Vehicle b;
-            cin >> b;
-            
+            cin >> b;          
             vehicle.Add(b);
 			break;
 		}
 
 		case 3: {
-            string userName;
+            string name;
             cout << "Enter vehicle name: ";
             cin.ignore();
-            getline(cin, userName);
-            vehicle.Find(userName);
+            getline(cin, name);
+            vehicle.Find(name);
 			break;
 		}
 
@@ -319,8 +319,9 @@ int main()
                 cout << "Not found vehicle id " << updateId << endl;
 			break;
 		}
+
 		case 8: {
-            vehicle.Statistics();
+           vehicle.Statistics();
 			break;
 		}
 
