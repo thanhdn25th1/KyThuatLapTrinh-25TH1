@@ -36,7 +36,7 @@ void LinkedList <T>::Add(T item) {
 	newNode->data = item;
 	newNode->next = nullptr;
 	if (head == nullptr) {
-		head == newNode;
+		head = newNode;
 	}
 	else {
 		Node<T>* item = head;
